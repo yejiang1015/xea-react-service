@@ -31,7 +31,7 @@ const mergeOptions = (): Options => {
   const _user = getUserOptions();
   let _conf = {};
   Object.keys(_default).forEach((key) => {
-    if (_user[key] && typeof _user[key] !== "undefined") {
+    if (typeof _user[key] !== "undefined") {
       /** dev-server */
       switch (key) {
         case "devServer":
@@ -42,7 +42,7 @@ const mergeOptions = (): Options => {
           _conf[key] = [..._default[key], ..._user[key]];
           break;
         default:
-          _conf[key] = _default[key];
+          _conf[key] = _user[key];
       }
     } else {
       _conf[key] = _default[key];
