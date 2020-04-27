@@ -3,11 +3,7 @@ import * as path from "path";
 
 import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
 
-export default (
-  config: Config,
-  env: NODE_ENV_TYPE,
-  options: Options
-): Config => {
+const Entry = (config: Config, env: NODE_ENV_TYPE, options: Options) => {
   if (env === NODE_ENV.development) {
     config
       .entry("index")
@@ -20,3 +16,5 @@ export default (
     return config;
   }
 };
+
+export default Entry;

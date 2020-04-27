@@ -8,7 +8,6 @@
 
 import * as Chain from "webpack-chain";
 import * as TerserPlugin from "terser-webpack-plugin";
-import * as os from "os";
 
 import Entry from "./core/entry";
 import Loaders from "./core/loaders";
@@ -35,11 +34,20 @@ config.optimization.noEmitOnErrors(true);
 config.optimization.minimizer("TerserPlugin").use(
   new TerserPlugin({
     /** 多进程 进程数 */
-    parallel: os.cpus().length,
+    parallel: true,
     /** sourceMap */
     sourceMap: false,
-    /** 去掉注释 */
-    extractComments: true,
+     /**
+      * 提取资源文件的注释和描述和 license。如下
+      *  @license React v16.13.1
+      * react-is.production.min.js
+      *
+      * Copyright (c) Facebook, Inc. and its affiliates.
+      *
+      * This source code is licensed under the MIT license found in the
+      * LICENSE file in the root directory of this source tree.
+      * */
+    extractComments: false,
   })
 );
 config.optimization.splitChunks({

@@ -3,7 +3,7 @@
  * @Date 2020-04-08 22:12:05
  * @Last Modified by: yejiang1015
  * @Last Modified time: 2020-04-14 00:19:51
- * @Message production
+ * @Message development
  */
 
 import * as Chain from "webpack-chain";

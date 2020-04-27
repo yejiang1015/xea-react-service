@@ -4,7 +4,7 @@ import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
 
 import { join } from "../../lib/utils";
 
-export default (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const Output = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
   let assetsHashName = "js/[name].[hash:8].js";
   if (ENV === NODE_ENV.development) {
     assetsHashName = "js/[name].js";
@@ -15,3 +15,5 @@ export default (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
     .filename(join(options.assetsDir, assetsHashName));
   return config;
 };
+
+export default Output;
