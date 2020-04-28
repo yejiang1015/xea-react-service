@@ -15,7 +15,8 @@
     "webpack",
     "webpack-chain",
     "react",
-    "cli"
+    "cli",
+    "React Cli Service"
   ],
   "description": "基于 webpack 、webpack-chain、 ts-node 的react项目快速开发脚手架",
   "homepage": "https://github.com/yejiang1015/xea-react-service#readme",
