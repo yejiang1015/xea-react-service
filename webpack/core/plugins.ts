@@ -4,6 +4,7 @@ import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import * as Webpackbar from "webpackbar";
+import * as XeaCompiledNoteWebpackPlugin from "../plugins/xea-compiled-note-webpack-plugin";
 import * as path from "path";
 import * as webpack from "webpack";
 
@@ -57,6 +58,14 @@ const DevPlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
   config
     .plugin("ErrorOverlayWebpackPlugin")
     .use(new ErrorOverlayWebpackPlugin())
+    .end();
+  config
+    .plugin("XeaCompiledNoteWebpackPlugin")
+    .use(
+      new XeaCompiledNoteWebpackPlugin({
+        port: options.devServer.port,
+      })
+    )
     .end();
   return config;
 };
