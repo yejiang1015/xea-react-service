@@ -23,23 +23,21 @@ class Mommand {
       }
       const statsInfo = stats.toString({
         colors: true,
-        all: false,
-        assets: true,
-        chunks: false,
-        errors: true,
-        hash: true,
-        modules: false,
-        chunkModules: false,
-        chunkGroups: false,
-        source: false,
+        builtAt: true,
         timings: true,
         version: true,
+        assets: true,
+        errors: true,
+        hash: true,
+        all: false,
+        chunks: false,
+        modules: false,
+        source: false,
       });
+
       console.info(statsInfo);
     });
   }
-
-  async init() {}
 
   async help() {
     const helpString = `
@@ -48,7 +46,6 @@ Usage: xea-react-service <command> [options]
 Options:
   ${chalk.green("serve")}     xea-react-service serve
   ${chalk.green("build")}     xea-react-service build
-  ${chalk.green("init")}      xea-react-service init
 
 Run xea-react-service for detailed usage of given command.
     `;
