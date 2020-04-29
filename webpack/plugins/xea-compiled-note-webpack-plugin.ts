@@ -34,9 +34,6 @@ export default class XeaCompiledNote {
   }
 
   doneFunc(stats: Stats) {
-    if (this.options.clearConsole) {
-      this.clearConsole();
-    }
     const hasErrors = stats.hasErrors();
     const hasWarnings = stats.hasWarnings();
     /** 有错误并且不屏蔽，则显示错误不显示当前插件内容 */
@@ -48,9 +45,6 @@ export default class XeaCompiledNote {
       return;
     }
     this.outputNote(stats);
-  }
-  invalidFunc() {
-    this.clearConsole();
   }
   clearConsole() {
     if (process.stdout.isTTY) {
@@ -81,7 +75,9 @@ export default class XeaCompiledNote {
         `       http://${this.getAddress()}:${this.options.port}/`
       ),
     };
-
+    if (this.options.clearConsole) {
+      this.clearConsole();
+    }
     console.log(Note.title, Note.note);
     console.log("\r\n");
     console.log(Types.title, Types.note);

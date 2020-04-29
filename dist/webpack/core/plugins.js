@@ -17,21 +17,19 @@ const webpack_1 = __importDefault(require("webpack"));
 const BasePlugins = (config, ENV, options) => {
     config
         .plugin("html")
-        .use(html_webpack_plugin_1.default, [
-        {
-            title: options.htmlTitle,
-            filename: "index.html",
-            template: utils_1.join(__dirname, "../../public/index.html"),
-            minify: {
-                /** 移除HTML中的注释 */
-                removeComments: true,
-                /** 删除空白符与换行符 */
-                collapseWhitespace: true,
-                /** 压缩内联css */
-                minifyCSS: true,
-            },
+        .use(new html_webpack_plugin_1.default({
+        title: options.htmlTitle,
+        filename: "index.html",
+        template: utils_1.join(__dirname, "../../../public/index.html"),
+        minify: {
+            /** 移除HTML中的注释 */
+            removeComments: true,
+            /** 删除空白符与换行符 */
+            collapseWhitespace: true,
+            /** 压缩内联css */
+            minifyCSS: true,
         },
-    ])
+    }))
         .end();
     config
         .plugin("Webpackbar")
@@ -44,10 +42,12 @@ const BasePlugins = (config, ENV, options) => {
 const DevPlugins = (config, ENV, options) => {
     config
         .plugin("HotModuleReplacementPlugin")
+        /** 启用热替换模块(Hot Module Replacement)，也被称为 HMR。 */
         .use(new webpack_1.default.HotModuleReplacementPlugin())
         .end();
     config
         .plugin("NoEmitOnErrorsPlugin")
+        /** webpack 进程遇到错误代码将不会退出 */
         .use(new webpack_1.default.NoEmitOnErrorsPlugin())
         .end();
     config

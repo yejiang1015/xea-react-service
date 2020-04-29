@@ -19,11 +19,11 @@ const BasePlugins = (
 ) => {
   config
     .plugin("html")
-    .use(HtmlWebpackPlugin, [
-      {
+    .use(
+      new HtmlWebpackPlugin({
         title: options.htmlTitle,
         filename: "index.html",
-        template: join(__dirname, "../../public/index.html"),
+        template: join(__dirname, "../../../public/index.html"),
         minify: {
           /** 移除HTML中的注释 */
           removeComments: true,
@@ -32,8 +32,8 @@ const BasePlugins = (
           /** 压缩内联css */
           minifyCSS: true,
         },
-      },
-    ])
+      })
+    )
     .end();
   config
     .plugin("Webpackbar")
@@ -52,10 +52,12 @@ const DevPlugins = (
 ) => {
   config
     .plugin("HotModuleReplacementPlugin")
+    /** 启用热替换模块(Hot Module Replacement)，也被称为 HMR。 */
     .use(new webpack.HotModuleReplacementPlugin())
     .end();
   config
     .plugin("NoEmitOnErrorsPlugin")
+    /** webpack 进程遇到错误代码将不会退出 */
     .use(new webpack.NoEmitOnErrorsPlugin())
     .end();
   config

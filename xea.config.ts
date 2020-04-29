@@ -11,7 +11,7 @@ export default (): Options => {
     excludeDir: [/node_modules/],
     smp: false,
     chainWebpack: (config, env) => config,
-    htmlTitle: "hello word",
+    htmlTitle: "hello word000",
     devServer: {
       port: 9090,
       hot: true,

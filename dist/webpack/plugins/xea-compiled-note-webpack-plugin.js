@@ -19,9 +19,6 @@ class XeaCompiledNote {
         this.plugin = "XeaCompiledNote";
     }
     doneFunc(stats) {
-        if (this.options.clearConsole) {
-            this.clearConsole();
-        }
         const hasErrors = stats.hasErrors();
         const hasWarnings = stats.hasWarnings();
         /** 有错误并且不屏蔽，则显示错误不显示当前插件内容 */
@@ -33,9 +30,6 @@ class XeaCompiledNote {
             return;
         }
         this.outputNote(stats);
-    }
-    invalidFunc() {
-        this.clearConsole();
     }
     clearConsole() {
         if (process.stdout.isTTY) {
@@ -62,6 +56,9 @@ class XeaCompiledNote {
             title: chalk_1.default.bgGreen(chalk_1.default.black(` DONE `)) + chalk_1.default.green(` - Network:`),
             note: chalk_1.default.green(`       http://${this.getAddress()}:${this.options.port}/`),
         };
+        if (this.options.clearConsole) {
+            this.clearConsole();
+        }
         console.log(Note.title, Note.note);
         console.log("\r\n");
         console.log(Types.title, Types.note);
