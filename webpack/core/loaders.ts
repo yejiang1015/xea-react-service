@@ -1,12 +1,11 @@
-import * as Config from "webpack-chain";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
-import * as path from "path";
+import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../typings";
 
-import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import WebpackChain from "webpack-chain";
+import options from "../../lib/options/index";
+import path from "path";
 
-import options from "../../lib/config";
-
-const cssLoader = (config: Config, env: NODE_ENV_TYPE) => {
+const cssLoader = (config: WebpackChain, env: NODE_ENV_TYPE) => {
   const cssRegExp = /\.css$/i;
   const cssModuleRegExp = /\.module\.css$/i;
   if (env === NODE_ENV.development) {
@@ -87,7 +86,7 @@ const cssLoader = (config: Config, env: NODE_ENV_TYPE) => {
     .end();
 };
 
-const babelLoader = (config: Config): Config => {
+const babelLoader = (config: WebpackChain): WebpackChain => {
   config.module
     .rule("eslint")
     .test(/\.(jsx|tsx|js|ts)$/)
@@ -119,20 +118,16 @@ const babelLoader = (config: Config): Config => {
       plugins: [
         [
           require.resolve("@babel/plugin-proposal-decorators"),
-          { "legacy": true }
+          { legacy: true },
         ],
         [
           require.resolve("@babel/plugin-proposal-class-properties"),
           {
-            loose: true
-          }
+            loose: true,
+          },
         ],
-        [
-          require.resolve("@babel/plugin-proposal-object-rest-spread"),
-        ],
-        [
-          require.resolve("@babel/plugin-syntax-dynamic-import"),
-        ],
+        [require.resolve("@babel/plugin-proposal-object-rest-spread")],
+        [require.resolve("@babel/plugin-syntax-dynamic-import")],
         [
           require.resolve("babel-plugin-import"),
           {
@@ -156,7 +151,7 @@ const babelLoader = (config: Config): Config => {
   return config;
 };
 
-const urlLoader = (config: Config): Config => {
+const urlLoader = (config: WebpackChain): WebpackChain => {
   config.module
     .rule("url-loader")
     .test(/\.jpe?g|png|gif|svg$/)
@@ -176,7 +171,7 @@ const urlLoader = (config: Config): Config => {
   return config;
 };
 
-const fileLoader = (config: Config): Config => {
+const fileLoader = (config: WebpackChain): WebpackChain => {
   config.module
     .rule("file-loader")
     .test(/\.(woff|woff2|eot|ttf)$/)
@@ -195,7 +190,11 @@ const fileLoader = (config: Config): Config => {
   return config;
 };
 
-const loaders = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const loaders = (
+  config: WebpackChain,
+  ENV: NODE_ENV_TYPE,
+  options: Options
+) => {
   babelLoader(config);
   cssLoader(config, ENV);
   fileLoader(config);

@@ -1,11 +1,27 @@
-"use strict";
+// import { Plugin } from "webpack";
+import { Compiler, Stats } from "webpack";
 
-const chalk = require("chalk");
-const os = require("os");
-const readline = require("readline");
+import chalk from "chalk";
+import os from "os";
+import readline from "readline";
 
-module.exports = class XeaCompiledNote {
-  constructor(options) {
+interface Options {
+  /** 是否清空控制台 */
+  clearConsole?: boolean;
+  /** 显示的名称 */
+  name?: string;
+  /** 显示的端口 */
+  port?: number;
+  /** 屏蔽警告 有警告就不显示结果 */
+  shieldWarnings?: boolean;
+  /** 屏蔽错误 有错误就不显示结果 */
+  shieldErrors?: boolean;
+}
+
+export default class XeaCompiledNote {
+  plugin: string;
+  options: Options;
+  constructor(options?: Options) {
     const _defaultOptions = {
       clearConsole: true,
       name: "React Service",
@@ -17,7 +33,7 @@ module.exports = class XeaCompiledNote {
     this.plugin = "XeaCompiledNote";
   }
 
-  doneFunc(stats) {
+  doneFunc(stats: Stats) {
     if (this.options.clearConsole) {
       this.clearConsole();
     }
@@ -44,7 +60,7 @@ module.exports = class XeaCompiledNote {
       readline.clearScreenDown(process.stdout);
     }
   }
-  outputNote(stats) {
+  outputNote(stats: Stats) {
     const Note = {
       title: chalk.bgGreen(chalk.black(` NOTE `)),
       note: chalk.green(
@@ -61,7 +77,9 @@ module.exports = class XeaCompiledNote {
     };
     const Network = {
       title: chalk.bgGreen(chalk.black(` DONE `)) + chalk.green(` - Network:`),
-      note: chalk.green(`       http://${this.getAddress()}:${this.options.port}/`),
+      note: chalk.green(
+        `       http://${this.getAddress()}:${this.options.port}/`
+      ),
     };
 
     console.log(Note.title, Note.note);
@@ -95,18 +113,21 @@ module.exports = class XeaCompiledNote {
   getCompileTime(stats) {
     if (this.isMultiStats(stats)) {
       return stats.stats.reduce(
-        (time, stats) => Math.max(time, this.getCompileTime(stats)),
+        (time: number, stats: Stats) =>
+          Math.max(time, this.getCompileTime(stats)),
         0
       );
     }
     return stats.endTime - stats.startTime;
   }
 
-  apply(compiler) {
+  apply(compiler: Compiler) {
     if (compiler.hooks) {
-      compiler.hooks.done.tap(this.plugin, (stats) => this.doneFunc(stats));
+      compiler.hooks.done.tap(this.plugin, (stats: Stats) =>
+        this.doneFunc(stats)
+      );
     } else {
-      compiler.plugin("done", (stats) => this.doneFunc(stats));
+      compiler.plugin("done", (stats: Stats) => this.doneFunc(stats));
     }
   }
-};
+}

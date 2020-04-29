@@ -1,10 +1,9 @@
-import * as Config from "webpack-chain";
+import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../typings";
 
-import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
-
+import WebpackChain from "webpack-chain";
 import { join } from "../../lib/utils";
 
-const Output = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const Output = (config: WebpackChain, ENV: NODE_ENV_TYPE, options: Options) => {
   let assetsHashName = "js/[name].[hash:8].js";
   if (ENV === NODE_ENV.development) {
     assetsHashName = "js/[name].js";

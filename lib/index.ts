@@ -1,8 +1,7 @@
 "use strict";
 
-import * as minimist from "minimist";
-
 import command from "./command";
+import minimist from "minimist";
 
 const argv: string = minimist(process.argv.slice(2))["_"].join("_");
 

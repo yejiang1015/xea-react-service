@@ -1,5 +1,5 @@
-import * as Config from "webpack-chain";
-import * as WebpackDevServer from "webpack-dev-server";
+import WebpackChain from "webpack-chain";
+import WebpackDevServer from "webpack-dev-server";
 
 export enum NODE_ENV {
   development = "development",
@@ -19,7 +19,7 @@ export interface Options {
   assetsDir?: string;
   includeDir?: RegExp[],
   excludeDir?: RegExp[],
-  chainWebpack?: (config: Config, env: NODE_ENV_TYPE) => Config;
+  chainWebpack?: (config: WebpackChain, env: NODE_ENV_TYPE) => WebpackChain;
   devServer?: DevServer;
   htmlTitle?: string;
   /** 是否显示每个模块构建时间 */

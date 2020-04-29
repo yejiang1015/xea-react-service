@@ -1,19 +1,22 @@
-import * as Config from "webpack-chain";
-import * as ErrorOverlayWebpackPlugin from "error-overlay-webpack-plugin";
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
-import * as OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import * as Webpackbar from "webpackbar";
-import * as XeaCompiledNoteWebpackPlugin from "../plugins/xea-compiled-note-webpack-plugin";
-import * as path from "path";
-import * as webpack from "webpack";
-
-import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
+import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../typings";
 
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import ErrorOverlayWebpackPlugin from "error-overlay-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import WebpackChain from "webpack-chain";
+import Webpackbar from "webpackbar";
+import XeaCompiledNoteWebpackPlugin from "../plugins/xea-compiled-note-webpack-plugin";
 import { join } from "../../lib/utils";
+import path from "path";
+import webpack from "webpack";
 
-const BasePlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const BasePlugins = (
+  config: WebpackChain,
+  ENV: NODE_ENV_TYPE,
+  options: Options
+) => {
   config
     .plugin("html")
     .use(HtmlWebpackPlugin, [
@@ -42,7 +45,11 @@ const BasePlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
     .end();
   return config;
 };
-const DevPlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const DevPlugins = (
+  config: WebpackChain,
+  ENV: NODE_ENV_TYPE,
+  options: Options
+) => {
   config
     .plugin("HotModuleReplacementPlugin")
     .use(new webpack.HotModuleReplacementPlugin())
@@ -69,7 +76,11 @@ const DevPlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
     .end();
   return config;
 };
-const ProPlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const ProPlugins = (
+  config: WebpackChain,
+  ENV: NODE_ENV_TYPE,
+  options: Options
+) => {
   config.plugin("MiniCssExtractPlugin").use(
     new MiniCssExtractPlugin({
       filename: path.join(options.assetsDir, "/css/[name].[hash:8].css"),
@@ -88,7 +99,11 @@ const ProPlugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
   return config;
 };
 
-const plugins = (config: Config, ENV: NODE_ENV_TYPE, options: Options) => {
+const plugins = (
+  config: WebpackChain,
+  ENV: NODE_ENV_TYPE,
+  options: Options
+) => {
   if (ENV === NODE_ENV.development) {
     BasePlugins(config, ENV, options);
     DevPlugins(config, ENV, options);

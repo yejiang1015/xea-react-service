@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 
 export const join = (baseDir, dir): string => {
   return path.join(baseDir, dir);

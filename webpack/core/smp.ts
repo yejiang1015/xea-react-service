@@ -1,10 +1,9 @@
-import * as Config from "webpack-chain";
-import * as SpeedMeasurePlugin from "speed-measure-webpack-plugin";
-
 import { Configuration } from "webpack";
-import options from "../../lib/config";
+import  SpeedMeasurePlugin from "speed-measure-webpack-plugin";
+import WebpackChain from "webpack-chain";
+import options from "../../lib/options/index";
 
-export default (config: Config): Configuration => {
+export default (config: WebpackChain): Configuration => {
   const smp = new SpeedMeasurePlugin();
   const _config = config.toConfig();
   if (options.smp) {

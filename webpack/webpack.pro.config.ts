@@ -2,25 +2,24 @@
  * @Author yejiang1015
  * @Date 2020-04-08 22:12:05
  * @Last Modified by: yejiang1015
- * @Last Modified time: 2020-04-27 22:28:55
+ * @Last Modified time: 2020-04-29 23:35:19
  * @Message production
  */
 
-import * as Chain from "webpack-chain";
-import * as TerserPlugin from "terser-webpack-plugin";
-
 import Entry from "./core/entry";
 import Loaders from "./core/loaders";
-import { NODE_ENV } from "../types";
+import { NODE_ENV } from "../typings";
 import Output from "./core/output";
 import Plugins from "./core/plugins";
 import Resolve from "./core/resolve";
-import options from "../lib/config";
+import TerserPlugin from "terser-webpack-plugin";
+import WebpackChain from "webpack-chain";
+import options from "../lib/options/index";
 import smp from "./core/smp";
 
 process.env.NODE_ENV = NODE_ENV.production;
 
-const config = new Chain();
+const config = new WebpackChain();
 
 config.mode(NODE_ENV.production);
 config.devtool(false).end();
@@ -37,16 +36,16 @@ config.optimization.minimizer("TerserPlugin").use(
     parallel: true,
     /** sourceMap */
     sourceMap: false,
-     /**
-      * 提取资源文件的注释和描述和 license。如下
-      *  @license React v16.13.1
-      * react-is.production.min.js
-      *
-      * Copyright (c) Facebook, Inc. and its affiliates.
-      *
-      * This source code is licensed under the MIT license found in the
-      * LICENSE file in the root directory of this source tree.
-      * */
+    /**
+     * 提取资源文件的注释和描述和 license。如下
+     *  @license React v16.13.1
+     * react-is.production.min.js
+     *
+     * Copyright (c) Facebook, Inc. and its affiliates.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     * */
     extractComments: false,
   })
 );
@@ -73,14 +72,16 @@ config.performance.set("hints", "warning");
 config.performance.set("maxAssetSize", 30000000);
 /** 入口文件大小报警阈值 （以字节为单位） */
 config.performance.set("maxEntrypointSize", 50000000);
-config.performance.set("assetFilter", (assetFilename) => {
+config.performance.set("assetFilter", (assetFilename: string) => {
   return assetFilename.endsWith(".css") || assetFilename.endsWith(".js");
 });
 
 /**
  * @end [config]
  */
-options.chainWebpack(config, NODE_ENV.production);
+if (options && typeof options.chainWebpack === "function") {
+  options.chainWebpack(config, NODE_ENV.production);
+}
 /**
  * @export
  */

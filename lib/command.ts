@@ -1,8 +1,7 @@
-import * as WebpackDevServer from "webpack-dev-server";
-import * as chalk from "chalk";
-import * as webpack from "webpack";
-
-import config from "./config";
+import WebpackDevServer from "webpack-dev-server";
+import chalk from "chalk";
+import options from "./options/index";
+import webpack from "webpack";
 import webpackDevelopmentConfig from "../webpack/webpack.dev.config";
 import webpackProductionConfig from "../webpack/webpack.pro.config";
 
@@ -10,9 +9,9 @@ class Mommand {
   async serve() {
     const compiler = webpack(webpackDevelopmentConfig);
     return new WebpackDevServer(compiler, {
-      ...config.devServer,
+      ...options.devServer,
       overlay: { errors: true, warnings: true },
-    }).listen(config.devServer.port);
+    }).listen(options.devServer.port);
   }
 
   async build() {

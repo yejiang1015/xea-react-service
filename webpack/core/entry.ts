@@ -1,13 +1,13 @@
-import * as Config from "webpack-chain";
-import * as path from "path";
+import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../typings";
 
-import { NODE_ENV, NODE_ENV_TYPE, Options } from "../../types";
+import WebpackChain from "webpack-chain";
+import path from "path";
 
-const Entry = (config: Config, env: NODE_ENV_TYPE, options: Options) => {
+const Entry = (config: WebpackChain, env: NODE_ENV_TYPE, options: Options) => {
   if (env === NODE_ENV.development) {
     config
       .entry("index")
-      .add(path.join(__dirname, "../../node_modules/webpack-dev-server/client"))
+      .add(path.join(__dirname, "../../../node_modules/webpack-dev-server/client"))
       .add(options.entryPath)
       .end();
     return config;
